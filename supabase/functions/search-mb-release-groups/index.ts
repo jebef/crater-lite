@@ -82,7 +82,7 @@ Deno.serve(async (req: Request) => {
 
 async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|null> {
     try {
-        const searchUrl = `https://musicbrainz.org/ws/2/release-group/${releaseGroupId}?inc=releases+artist-credits&fmt=json`;
+        const searchUrl = `https://musicbrainz.org/ws/2/release/?release-group=${releaseGroupId}&inc=media+artist-credits&fmt=json`;
         const res = await fetch(searchUrl, {
             headers: { "User-Agent": USER_AGENT }
         });
@@ -103,7 +103,7 @@ async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|n
                 if (coverUrl !== null && generalCoverUrl === null) {
                     generalCoverUrl = coverUrl;
                 }
-                const packaging = release.packaging ? release.packaging : null;
+                const mediaType = release.media?.[0]?.format;
                 const artists: Artist[] = release["artist-credit"]?.map((credit: any) => {
                     const artist = credit.artist;
                     return {
@@ -112,15 +112,15 @@ async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|n
                         type: artist.type
                     }
                 }) || [];
-                const date = release.date ? release.date : null;
-                const country = release.country ? release.country : null;
+                const date = release.date ? release.date : undefined;
+                const country = release.country ? release.country : undefined;
 
                 return {
                     mbid: release.id,
                     title: release.title,
                     coverUrl: coverUrl,
                     status: release.status,
-                    packaging: packaging,
+                    mediaType: mediaType,
                     artists: artists,
                     date: date,
                     country: country

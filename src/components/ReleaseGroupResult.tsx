@@ -1,34 +1,40 @@
 import { useState, useEffect } from "react";
-import styles from "./ReleaseGroupResult.module.css";
-import QuestionMark from "./../assets/question-mark.png";
-import type { ReleaseGroup } from "../../utils/types.ts";
+import SearchResult from "./SearchResult";
+import type { ReleaseGroup, Release, Artist } from "../../utils/types";
 
 export default function ReleaseGroupResult({ data }: { data: ReleaseGroup }) {
-    const [imgSrc, setImgSrc] = useState("");
-    const [imgClass, setImgClass] = useState("");
+    const [showReleases, setShowReleases] = useState(false);
+
+    const handleClick = () => {
+        setShowReleases(!showReleases);
+    }
 
     useEffect(() => {
-        if (!data) return;
+        setShowReleases(false);
+    }, [data]);
 
-        if (!data.generalCoverUrl) {
-            setImgSrc(QuestionMark);
-            setImgClass("pixel-img");
-        } else {
-            setImgSrc(data.generalCoverUrl);
-            setImgClass("img");
-        }
-    },[data]);
+    
 
     return (
-        <div className={styles["result-item"]}>
-            <div className={styles["cover"]}>
-                <img className={styles[`${imgClass}`]} src={imgSrc} alt="Cover Art"/>
+        <>
+            <SearchResult
+                img={data.generalCoverUrl}
+                title={data.title}
+                subTitle={data.artists.map((a: Artist) => a.name).join(", ")}
+                onClick={handleClick}
+            />
+            <div style={{paddingLeft: "30px"}}>
+                {showReleases &&
+                    data.releases.map((r: Release) => (
+                        <SearchResult
+                            img={r.coverUrl}
+                            title={r.title}
+                            subTitle={`${r.date?.slice(0,4)} | ${r.mediaType}`} // TODO: media type may be null 
+                            onClick={() => { }}
+                        />
+                    ))
+                }
             </div>
-            <div className={styles["info"]}>
-                <div className={styles["title"]}>{data.title}</div>
-                <div className={styles["artist"]}>{data.artists.map((artist: any) => artist.name).join(", ")}</div>
-            </div>
-        </div>
-
-    );
+        </>
+    )
 }

@@ -1,6 +1,20 @@
 .container {
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
     font-size: 16px;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-input {
+    flex: 1 0 auto;
+}
+
+.results {
+    height: 360px;
+    overflow-y: auto;
 }

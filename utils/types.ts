@@ -7,12 +7,12 @@ export type Artist = {
 export type Release = {
     mbid: string;
     title: string;
-    coverUrl: string | null;
+    coverUrl: string | undefined;
     status: string;
-    packaging: string | null;
+    mediaType: string | undefined;
     artists: Artist[];
-    date: string | null;
-    country: string | null;
+    date: string | undefined;
+    country: string | undefined;
 }
 
 export type ReleaseGroup = {

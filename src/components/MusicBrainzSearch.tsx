@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { supabase } from "../utils/supabase";
 import type { Artist, ReleaseGroup } from "../../utils/types.ts";
+import SearchResult from "./SearchResult.tsx";
 import ReleaseGroupResult from "./ReleaseGroupResult.tsx";
+import ArtistResult from "./ArtistResult.tsx";
 import styles from "./MusicBrainzSearch.module.css";
 
 export default function MusicBrainzSearch() {
     const [query, setQuery] = useState("");
+    const [queryType, setQueryType] = useState("release");
     const [artistResults, setArtistResults] = useState<Artist[]>([]);
     const [releaseGroupResults, setReleaseGroupResults] = useState<ReleaseGroup[]>([]);
     const [loading, setLoading] = useState(false);
-
-    // TODO: USER SHOULD SET THIS 
-    const type = "release";
 
     const handleSearch = async () => {
         if (!query) return;
         setLoading(true);
         try {
-            if (type === "release") {
-                const releaseGroups = (await supabase.searchMusicBrainzReleaseGroup(query, type));
+            if (queryType === "release") {
+                const releaseGroups = (await supabase.searchMusicBrainzReleaseGroup(query, queryType));
                 setReleaseGroupResults(releaseGroups);
             } else {
                 const artists = (await supabase.searchMusicBrainzArtist(query));
@@ -31,15 +31,36 @@ export default function MusicBrainzSearch() {
 
     return (
         <div className={styles["container"]}>
-            <input style={{fontSize: "16px"}} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search releases..." />
-            <button style={{fontSize: "16px"}} onClick={handleSearch} disabled={loading}>
-                {loading ? "Searching..." : "Search"}
-            </button>
-            { 
-                releaseGroupResults.map((r: ReleaseGroup) => (
-                    <ReleaseGroupResult data={r}/>
-                ))
-            }
+            <div className={styles["search"]}>
+                <input className={styles["search-input"]} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="search releases..." />
+                <select
+                    value={queryType}
+                    onChange={(e) => setQueryType(e.target.value)}
+                >
+                    <option>release</option>
+                    <option>artist</option>
+                </select>
+                <button style={{ fontSize: "16px" }} onClick={handleSearch} disabled={loading}>
+                    {loading ? "searching..." : "search"}
+                </button>
+            </div>
+            <div className={styles["results"]}>
+                {/* {queryType === "release" &&
+                    releaseGroupResults.map((r: ReleaseGroup) => (
+                        <SearchResult img={r.generalCoverUrl} title={r.title} subTitle={r.artists.map((a: any) => a.name).join(", ")} />
+                    ))
+                } */}
+                {queryType === "release" &&
+                    releaseGroupResults.map((r: ReleaseGroup) => (
+                        <ReleaseGroupResult data={r}/>
+                    ))
+                }
+                {queryType === "artist" &&
+                    artistResults.map((a: Artist) => (
+                        <ArtistResult data={a} />
+                    ))
+                }
+            </div>
         </div>
     );
 }
