@@ -1,6 +1,6 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import type { Crate } from "./types";
-import type { Artist, ReleaseGroup } from "../../utils/types.ts";
+import type { Artist, ReleaseGroup, NormalizedReleaseGroup } from "../../utils/types.ts";
 
 class SupaAPI {
     URL: string;
@@ -34,7 +34,7 @@ class SupaAPI {
         return data.results;
     }
 
-    async searchMusicBrainzReleaseGroup(query: string, type: string = "release"): Promise<ReleaseGroup[]> {
+    async searchMusicBrainzReleaseGroup(query: string, type: string = "release"): Promise<NormalizedReleaseGroup[]> {
         const { data, error } = await this.client.functions.invoke("search-mb-release-groups", {
             body: { 
                 query,

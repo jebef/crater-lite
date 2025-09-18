@@ -1,7 +1,8 @@
 .container {
     width: 100%;
     font-size: 64px;
-    color: whitesmoke;
+    /* color: whitesmoke; */
+    color: black;
 }
 
 .container:hover {

@@ -3,22 +3,29 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 const QUERY_LIMIT = 10;
 const USER_AGENT = "Crater/1.0 ( wjebef@berkeley.edu )";
 
-import type { ReleaseGroup, Release, Artist } from "../../../utils/types.ts";
+import type { ReleaseGroup, Release, Artist, Track, NormalizedReleaseGroup, Label } from "../../../utils/types.ts";
 
 type ReleasesResponse = {
     releases: Release[];
     generalCoverUrl: string | null;
 }
 
+type ReleaseGroupInfo = {
+    coverUrl: string;
+    tracks: Track[];
+    trackCount: number;
+    label: Label;
+}
+
 Deno.serve(async (req: Request) => {
     if (req.method === "OPTIONS") {
         return new Response(null, {
-             headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*", // or restrict to http://localhost:5173
-            "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        },
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*", // or restrict to http://localhost:5173
+                "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            },
         });
     }
 
@@ -38,7 +45,7 @@ Deno.serve(async (req: Request) => {
         } else {
             searchUrl = `https://musicbrainz.org/ws/2/release-group/?query=release:${encodeURIComponent(query)}&fmt=json&limit=${QUERY_LIMIT}`;
         }
-    
+
         const res = await fetch(searchUrl, {
             headers: { "User-Agent": USER_AGENT }
         });
@@ -50,9 +57,10 @@ Deno.serve(async (req: Request) => {
             return jsonResponse({ error: "No releases found, please try a different search" }, 404);
         }
 
-        const results: ReleaseGroup[] = await Promise.all(
+        const results: NormalizedReleaseGroup[] = await Promise.all(
             data["release-groups"].map(async (releaseGroup: any) => {
-                const releaseResults: ReleasesResponse = await fetchReleases(releaseGroup.id);
+                const firstReleaseYear = releaseGroup["first-release-date"]?.slice(0, 4);
+                const info = await fetchReleaseGroupInfo(releaseGroup.id, firstReleaseYear);
                 const artists: Artist[] = releaseGroup["artist-credit"]?.map((credit: any) => {
                     const artist = credit.artist;
                     return {
@@ -65,12 +73,15 @@ Deno.serve(async (req: Request) => {
                 return {
                     mbid: releaseGroup.id,
                     title: releaseGroup.title,
-                    generalCoverUrl: releaseResults.generalCoverUrl,
+                    type: releaseGroup["primary-type"],
+                    coverUrl: info?.coverUrl,
                     artists: artists,
-                    releases: releaseResults.releases
-                };
+                    firstReleaseYear: firstReleaseYear,
+                    tracks: info?.tracks,
+                    labels: info?.labels
+                }
             })
-        );
+        )
 
         return jsonResponse({ results });
 
@@ -80,9 +91,10 @@ Deno.serve(async (req: Request) => {
     }
 });
 
-async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|null> {
+// TODO: get label info 
+async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGroupInfo | null> {
     try {
-        const searchUrl = `https://musicbrainz.org/ws/2/release/?release-group=${releaseGroupId}&inc=media+artist-credits&fmt=json`;
+        const searchUrl = `https://musicbrainz.org/ws/2/release/?release-group=${releaseGroupId}&status=official&inc=media+artist-credits+recordings+labels&fmt=json`;
         const res = await fetch(searchUrl, {
             headers: { "User-Agent": USER_AGENT }
         });
@@ -95,45 +107,64 @@ async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|n
             return null;
         }
 
-        let generalCoverUrl: string | null = null;
+        // sort by release date 
+        const sorted = data.releases.sort((a: any, b: any) => {
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
 
-        const releases: Release[] = await Promise.all( 
-            data.releases.map(async (release: any) => {
+        // find earliest offical release with cover art 
+        for (const release of sorted) {
+            if (release["cover-art-archive"]?.artwork === true &&
+                release["cover-art-archive"]?.front === true
+            ) {
                 const coverUrl = await fetchCoverArt(release.id);
-                if (coverUrl !== null && generalCoverUrl === null) {
-                    generalCoverUrl = coverUrl;
-                }
-                const mediaType = release.media?.[0]?.format;
-                const artists: Artist[] = release["artist-credit"]?.map((credit: any) => {
-                    const artist = credit.artist;
+                const tracks: Track[] = release.media?.flatMap((m: any) =>
+                    m.tracks?.map((track: any) => ({
+                        mbid: track.id,
+                        number: track.number,
+                        title: track.title,
+                        length: track.length
+                    })) || []
+                ) || [];
+                const labels: Label[] = release["label-info"]?.map((info: any) => {
                     return {
-                        mbid: artist.id,
-                        name: artist.name,
-                        type: artist.type
+                        mbid: info.label?.id,
+                        name: info.label?.name
                     }
-                }) || [];
-                const date = release.date ? release.date : undefined;
-                const country = release.country ? release.country : undefined;
+                });
 
                 return {
-                    mbid: release.id,
-                    title: release.title,
                     coverUrl: coverUrl,
-                    status: release.status,
-                    mediaType: mediaType,
-                    artists: artists,
-                    date: date,
-                    country: country
+                    tracks: tracks,
+                    labels: labels
                 }
-            })
-        );
-
-        const result: ReleasesResponse = {
-            releases: releases,
-            generalCoverUrl: generalCoverUrl
+            }
         }
 
-        return result;
+        // if no cover art, fall back to first official release 
+        const tracks: Track[] = sorted[0].media?.flatMap((m: any) =>
+            m.tracks?.map((track: any) => ({
+                mbid: track.id,
+                number: track.number,
+                title: track.title,
+                length: track.length
+            })) || []
+        ) || [];
+
+        const labels: Label[] = sorted[0]["label-info"]?.map((info: any) => {
+            return {
+                mbid: info.label?.id,
+                name: info.label?.name
+            }
+        });
+
+        return {
+            coverUrl: undefined,
+            tracks: tracks,
+            labels: labels
+        }
 
     } catch (err) {
         console.error("Error fetching releases: ", err);
@@ -141,7 +172,7 @@ async function fetchReleases(releaseGroupId: string): Promise<ReleasesResponse|n
     }
 }
 
-async function fetchCoverArt(releaseId: string): Promise<string|null> {
+async function fetchCoverArt(releaseId: string): Promise<string | null> {
     try {
         const res = await fetch(`https://coverartarchive.org/release/${releaseId}`);
         if (res.ok) {

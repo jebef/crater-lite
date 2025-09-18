@@ -4,8 +4,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #152B4F;
-    color: whitesmoke;
+    /* background-color: #152B4F; */
+    background-color: white;
+    /* color: whitesmoke; */
+    color: black;
 }
 
 .add-releases {

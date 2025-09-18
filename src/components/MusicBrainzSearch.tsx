@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../utils/supabase";
-import type { Artist, ReleaseGroup } from "../../utils/types.ts";
-import SearchResult from "./SearchResult.tsx";
+import type { Artist, ReleaseGroup, NormalizedReleaseGroup } from "../../utils/types.ts";
 import ReleaseGroupResult from "./ReleaseGroupResult.tsx";
 import ArtistResult from "./ArtistResult.tsx";
 import styles from "./MusicBrainzSearch.module.css";
@@ -10,7 +9,7 @@ export default function MusicBrainzSearch() {
     const [query, setQuery] = useState("");
     const [queryType, setQueryType] = useState("release");
     const [artistResults, setArtistResults] = useState<Artist[]>([]);
-    const [releaseGroupResults, setReleaseGroupResults] = useState<ReleaseGroup[]>([]);
+    const [releaseGroupResults, setReleaseGroupResults] = useState<NormalizedReleaseGroup[]>([]);
     const [loading, setLoading] = useState(false);
 
     const handleSearch = async () => {
@@ -51,7 +50,7 @@ export default function MusicBrainzSearch() {
                     ))
                 } */}
                 {queryType === "release" &&
-                    releaseGroupResults.map((r: ReleaseGroup) => (
+                    releaseGroupResults.map((r: NormalizedReleaseGroup) => (
                         <ReleaseGroupResult data={r}/>
                     ))
                 }
