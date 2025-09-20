@@ -1,6 +1,6 @@
 .main {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    inset: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -17,6 +17,8 @@
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
     padding-top: 30px;
+    padding-bottom: 30px;
+    overflow: hidden;
 }
 
 .cover-hub {
@@ -77,10 +79,14 @@
     color: whitesmoke;
     font-size: 18px;
     line-height: 1;
+    flex: 0 0 auto;
 }
 
 .track-list {
+    flex: 1 1 auto;
+    min-height: 0;
     padding-top: 18px;
+    overflow-y: auto;
 }
 
 .track {

@@ -19,8 +19,6 @@
     transition: background-size 0.5s ease; */
 }
 
-/* .container:hover {
-    background-size: 150% 150%;
-} */
-
-.animation {}
+.container:hover {
+    cursor: crosshair;
+}

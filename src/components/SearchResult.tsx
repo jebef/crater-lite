@@ -6,9 +6,10 @@ interface SearchResultParams {
     title: string;
     subTitle: string | undefined;
     onClick: () => void;
+    mode: number; // 0 light, 1 dark
 }
 
-export default function SearchResult({ img, title, subTitle, onClick }: SearchResultParams) {
+export default function SearchResult({ img, title, subTitle, onClick, mode }: SearchResultParams) {
     const imgSrc = img || QuestionMark;
     const imgClass = img ? "img" : "pixel-img";
 
@@ -18,8 +19,22 @@ export default function SearchResult({ img, title, subTitle, onClick }: SearchRe
                 <img className={styles[`${imgClass}`]} src={imgSrc} />
             </div>
             <div className={styles["info"]}>
-                <div className={styles["title"]}>{title}</div>
-                <div className={styles["sub-title"]}>{subTitle}</div>
+                <div 
+                    className={styles["title"]}
+                    style={{
+                        color: mode === 0 ? "black" : "whitesmoke"
+                    }}
+                >
+                    {title}
+                </div>
+                <div 
+                    className={styles["sub-title"]}
+                    style={{
+                        color: mode === 0 ? "black" : "whitesmoke"
+                    }}
+                >
+                    {subTitle}
+                </div>
             </div>
         </div>
 

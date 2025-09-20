@@ -48,7 +48,46 @@ export type NormalizedReleaseGroup = {
 
 export interface ReleasePopupProps {
     data: NormalizedReleaseGroup;
-    onAddClick: () => void;
-    onNoteClick: () => void;
+    index: number;
     onClose: () => void;
+}
+
+export type SupaReleaseGroup = {
+    // SEND TO SUPA // 
+    id?: number;
+    mbid: string;
+    index: number;
+
+    // FOR FRONT END ONLY // 
+    title: string;
+    type: string;
+    coverUrl: string;
+    artists: Artist[];
+    firstReleaseYear: string;
+    tracks: Track[];
+    labels: Label[];
+}
+
+export type SupaNote = {
+    id?: number;
+    content: string;
+    index: number;
+}
+
+export type SupaCrate = {
+    // SUPA // 
+    id?: number;
+    key: string;
+    privateKey?: string;
+    title: string;
+    toName: string;
+    fromName: string;
+    description: string;
+    releaseGroups: SupaReleaseGroup[];
+    notes: SupaNote[];
+
+    // CLIENT // 
+    currentIndex: number;
+
+
 }

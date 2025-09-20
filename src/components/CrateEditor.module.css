@@ -1,0 +1,49 @@
+.main-container {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: black;
+}
+
+.title-input,
+.to-name-input,
+.from-name-input {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 18px;
+    border: thin solid black;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.to-name-input,
+.from-name-input {
+    width: 66%;
+}
+
+.description-input {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 4px;
+    font-size: 18px;
+    min-height: 166px;
+    border: thin solid black;
+
+    resize: none;
+    /* let the user drag it taller */
+    overflow-y: auto;
+}

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
 import type { Artist, NormalizedReleaseGroup, Track, Label } from "../../utils/types";
+import { useCrate } from "../contexts/CrateContext";
 import ReleasePopup from "./ReleasePopup";
 
-export default function ReleaseGroupResult({ data }: { data: NormalizedReleaseGroup }) {
+export default function ReleaseGroupResult({ data, mode }: { data: NormalizedReleaseGroup, mode: number }) {
+    const { state } = useCrate();
     const [showInfo, setShowInfo] = useState(false);
 
     const handleClick = () => {
@@ -22,8 +24,6 @@ export default function ReleaseGroupResult({ data }: { data: NormalizedReleaseGr
         console.log("Added to crate!");
     }
 
-    
-
     return (
         <>
             <SearchResult
@@ -31,25 +31,11 @@ export default function ReleaseGroupResult({ data }: { data: NormalizedReleaseGr
                 title={data.title}
                 subTitle={`${data.artists.map((a: Artist) => a.name).join(", ")} | ${data.type}`}
                 onClick={handleClick}
+                mode={mode}
             />
             <div>
-                {/* {showInfo &&
-                    <>
-                        <br></br>
-                        <img src={data.coverUrl} style={{ width: "60px", aspectRatio: "1/1"}}/>
-                        <div>{data.title} | {data.firstReleaseYear} | {data.type}</div>
-                        <div>{data.artists.map((a: Artist) => a.name).join(", ")}</div>
-                        {
-                            data.tracks.map((t: Track) => 
-                                <div>{t.number} | {t.title} | {t.length}</div>
-                            )
-                        }
-                        <div>{data.labels.map((l: Label) => l.name).join(", ")}</div>
-                    </>
-                } */}
-
                 { showInfo && 
-                    <ReleasePopup data={data} onAddClick={handleAddClick} onNoteClick={() => ""} onClose={handleClose}/>
+                    <ReleasePopup data={data} index={state.currentIndex} onClose={handleClose}/>
                 }
             </div>
         </>
