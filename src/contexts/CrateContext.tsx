@@ -1,19 +1,19 @@
 import { createContext, useContext, useReducer } from "react";
 import type { ReactNode } from "react";
-import type { SupaCrate, SupaReleaseGroup, SupaNote } from "../../utils/types";
+import type { Crate, ReleaseGroup, ReleaseNote } from "../../utils/types";
 
 type CrateAction =
     | { type: "SET_TITLE"; payload: string }
     | { type: "SET_TO_NAME"; payload: string }
     | { type: "SET_FROM_NAME"; payload: string }
     | { type: "SET_DESCRIPTION"; payload: string }
-    | { type: "ADD_RELEASE_GROUP"; payload: SupaReleaseGroup }
-    | { type: "REMOVE_RELEASE_GROUP"; payload: number }         // index of the release to remove 
-    | { type: "ADD_NOTE"; payload: SupaNote }
-    | { type: "REMOVE_NOTE"; payload: number }                  // index of the note to remove 
+    | { type: "ADD_RELEASE_GROUP"; payload: ReleaseGroup }
+    | { type: "REMOVE_RELEASE_GROUP"; payload: string }         // mbid of the release to remove 
+    | { type: "ADD_NOTE"; payload: ReleaseNote }
+    | { type: "REMOVE_NOTE"; payload: string }                  // mbid of the release associated with the note 
     | { type: "RESET" };
 
-function crateReducer(state: SupaCrate, action: CrateAction): SupaCrate {
+function crateReducer(state: Crate, action: CrateAction): Crate {
     switch (action.type) {
         case "SET_TITLE":
             return { ...state, title: action.payload };
@@ -26,21 +26,19 @@ function crateReducer(state: SupaCrate, action: CrateAction): SupaCrate {
         case "ADD_RELEASE_GROUP":
             return {
                 ...state, 
-                releaseGroups: [...state.releaseGroups, action.payload], 
-                currentIndex: state.currentIndex + 1 
+                releaseGroups: [...state.releaseGroups, action.payload]
             };
         case "REMOVE_RELEASE_GROUP":
             return {
                 ...state,
-                releaseGroups: state.releaseGroups.splice(action.payload, 1),
-                currentIndex: state.currentIndex - 1
+                releaseGroups: state.releaseGroups.filter(r => r.mbid !== action.payload)
             };
         case "ADD_NOTE":
             return { ...state, notes: [...state.notes, action.payload] }
         case "REMOVE_NOTE":
             return {
                 ...state, 
-                notes: state.notes.splice(action.payload, 1)
+                notes: state.notes.filter(n => n.mbid !== action.payload)
             }
         case "RESET":
             return {
@@ -50,8 +48,7 @@ function crateReducer(state: SupaCrate, action: CrateAction): SupaCrate {
                 fromName: "",
                 description: "",
                 releaseGroups: [],
-                notes: [],
-                currentIndex: 0
+                notes: []
             };
         default:
             return state;
@@ -59,7 +56,7 @@ function crateReducer(state: SupaCrate, action: CrateAction): SupaCrate {
 }
 
 type CrateContextType = {
-    state: SupaCrate;
+    state: Crate;
     dispatch: React.Dispatch<CrateAction>;
 };
 
@@ -73,8 +70,7 @@ export function CrateProvider({ children }: { children: ReactNode }) {
         fromName: "",
         description: "",
         releaseGroups: [],
-        notes: [],
-        currentIndex: 0
+        notes: []
     });
 
     return (

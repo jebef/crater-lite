@@ -1,27 +1,23 @@
 import { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
-import type { Artist, NormalizedReleaseGroup, Track, Label } from "../../utils/types";
+import type { Artist, ReleaseGroup } from "../../utils/types";
 import { useCrate } from "../contexts/CrateContext";
 import ReleasePopup from "./ReleasePopup";
 
-export default function ReleaseGroupResult({ data, mode }: { data: NormalizedReleaseGroup, mode: number }) {
+export default function ReleaseGroupResult({ data, mode }: { data: ReleaseGroup, mode: number }) {
     const { state } = useCrate();
     const [showInfo, setShowInfo] = useState(false);
-
-    const handleClick = () => {
-        setShowInfo(!showInfo);
-    }
 
     useEffect(() => {
         setShowInfo(false);
     }, [data]);
 
-    const handleClose = () => {
-        setShowInfo(false);
+    const handleClick = () => {
+        setShowInfo(!showInfo);
     }
 
-    const handleAddClick = () => {
-        console.log("Added to crate!");
+    const handleClose = () => {
+        setShowInfo(false);
     }
 
     return (
@@ -34,8 +30,8 @@ export default function ReleaseGroupResult({ data, mode }: { data: NormalizedRel
                 mode={mode}
             />
             <div>
-                { showInfo && 
-                    <ReleasePopup data={data} index={state.currentIndex} onClose={handleClose}/>
+                {showInfo &&
+                    <ReleasePopup data={data} index={state.currentIndex} onClose={handleClose} />
                 }
             </div>
         </>

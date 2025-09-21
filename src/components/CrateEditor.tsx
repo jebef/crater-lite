@@ -1,14 +1,34 @@
-import { useState, useEffect } from "react";
 import { useCrate } from "../contexts/CrateContext";
 import AddRelease from "./AddRelease";
-import type { SupaReleaseGroup, Artist } from "../../utils/types";
+import type { ReleaseGroup, Crate } from "../../utils/types";
 import ReleaseGroupResult from "./ReleaseGroupResult";
+import { v4 as uuidv4 } from "uuid";
+import { supabase } from "../utils/supabase";
+
+import { useNavigate } from "react-router-dom";
+
 
 import styles from "./CrateEditor.module.css";
 
 export default function CrateEditor() {
-
     const { state, dispatch } = useCrate();
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        const key = uuidv4();
+        const crate: Crate = {
+            ...state,
+            key: key
+        }
+        try {
+            // save crate to supa db 
+            await supabase.newCrate(crate);
+            // navigate to crate page 
+            navigate(`/crate/${key}`);
+        } catch (err: any) {
+            console.log("Error saving crate!", err.message);
+        }
+    }
 
     return (
         <div className={styles["main-container"]}>
@@ -43,9 +63,9 @@ export default function CrateEditor() {
                 value={state.description}
                 onChange={(e) => dispatch({ type: "SET_DESCRIPTION", payload: e.target.value })}
             />
-            <div>
+            <div className={styles["releases-container"]}>
                 {
-                    state.releaseGroups.map((r: SupaReleaseGroup) => (
+                    state.releaseGroups.map((r: ReleaseGroup) => (
                         <ReleaseGroupResult
                             data={{
                                 mbid: r.mbid,
@@ -60,10 +80,12 @@ export default function CrateEditor() {
                             mode={0}
                         />
                     ))
-
                 }
             </div>
             <AddRelease />
+            <div className={styles["submit-button"]} onClick={handleSubmit}>
+                fin
+            </div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabase";
-import type { Artist, NormalizedReleaseGroup } from "../../utils/types.ts";
+import type { Artist, ReleaseGroup } from "../../utils/types.ts";
 import { Modal } from "./../utils/Modal";
 
 import ReleaseGroupResult from "./ReleaseGroupResult.tsx";
@@ -12,7 +12,7 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
     const [query, setQuery] = useState("");
     const [queryType, setQueryType] = useState("release");
     const [artistResults, setArtistResults] = useState<Artist[]>([]);
-    const [releaseGroupResults, setReleaseGroupResults] = useState<NormalizedReleaseGroup[]>([]);
+    const [releaseGroupResults, setReleaseGroupResults] = useState<ReleaseGroup[]>([]);
     const [loading, setLoading] = useState(false);
 
     const [selectType, setSelectType] = useState(false);
@@ -108,8 +108,8 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
                     {!loading &&
                         <div className={styles["results"]}>
                             {queryType === "release" &&
-                                releaseGroupResults.map((r: NormalizedReleaseGroup) => (
-                                    <ReleaseGroupResult data={r} />
+                                releaseGroupResults.map((r: ReleaseGroup) => (
+                                    <ReleaseGroupResult data={r} mode={1} />
                                 ))
                             }
                             {queryType === "artist" &&

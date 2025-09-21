@@ -1,22 +1,17 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const QUERY_LIMIT = 10;
+
 const USER_AGENT = "Crater/1.0 ( wjebef@berkeley.edu )";
 
 import type { ReleaseGroup, Artist, Track, Label } from "../../../utils/types.ts";
-
-type ReleaseGroupInfo = {
-    coverUrl: string;
-    tracks: Track[];
-    label: Label;
-}
 
 Deno.serve(async (req: Request) => {
     if (req.method === "OPTIONS") {
         return new Response(null, {
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*", // or restrict to http://localhost:5173
+                "Access-Control-Allow-Origin": "*", 
                 "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             },
@@ -24,21 +19,9 @@ Deno.serve(async (req: Request) => {
     }
 
     try {
-        // query: string -> release title 
-        // type: release 
+        const { mbid } = await req.json();
 
-        // query: string -> artist mbid 
-        // type: artist 
-
-        const { query, type } = await req.json();
-
-        let searchUrl;
-
-        if (type === "artist") {
-            searchUrl = `https://musicbrainz.org/ws/2/artist/${query}?inc=release-groups&fmt=json&limit=${QUERY_LIMIT}`;
-        } else {
-            searchUrl = `https://musicbrainz.org/ws/2/release-group/?query=release:${encodeURIComponent(query)}&fmt=json&limit=${QUERY_LIMIT}`;
-        }
+        const searchUrl = `https://musicbrainz.org/ws/2/release/?release-group=${mbid}&status=official&inc=media+artist-credits+recordings+labels&fmt=json`;
 
         const res = await fetch(searchUrl, {
             headers: { "User-Agent": USER_AGENT }
