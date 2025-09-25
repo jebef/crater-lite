@@ -51,6 +51,21 @@ class SupaAPI {
         return data.results;
     }
 
+    async fetchMusicBrainzReleaseGroup(mbid: string): Promise<ReleaseGroup> {
+        const { data, error } = await this.client.functions.invoke("fetch-release-group", {
+            body: {
+                mbid
+            }
+        });
+
+        if (error) {
+            console.error("Error fetching release group from MusicBrainz: ", error.message);
+            throw error;
+        }
+
+        return data.result;
+    }
+
     async newCrate(crate: Crate): Promise<void> {
         const supaCrate: SupaCrate = {
             key: crate.key,
@@ -65,7 +80,7 @@ class SupaAPI {
             .from("crates")
             .insert([supaCrate])
             .select()
-            .single(); 
+            .single();
 
         if (crateError || !crateData) {
             console.error("Error inserting crate: ", crateError?.message);

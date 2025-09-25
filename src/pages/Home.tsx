@@ -1,13 +1,19 @@
 import styles from "./Home.module.css";
 import Header from "../components/Header";
 import CrateAnimation from "../components/CrateAnimation";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+    const navigate = useNavigate();
+
+    const handleCrateClick = () => {
+        navigate("/new-crate")
+    }
 
     return (
         <div className={styles["container"]}>
             <Header />
-            <CrateAnimation />
+            <CrateAnimation handleClick={handleCrateClick} />
             <div className={styles["text"]} style={{ rotate: "-3deg" }}>
                 gift a digital music gram today!
             </div>
