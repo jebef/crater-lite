@@ -1,5 +1,5 @@
 import styles from "./SearchResult.module.css";
-import QuestionMark from "/question-mark.png";
+import QuestionMark from "/images/question-mark.png";
 
 interface SearchResultParams {
     img: string | undefined;

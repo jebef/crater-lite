@@ -1,0 +1,47 @@
+.container {
+    position: relative;
+}
+
+.scroll-tool {
+    overflow-y: scroll;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+
+.scroll-tool::-webkit-scrollbar {
+    display: none;
+}
+
+.img-a {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.img-b {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.img-container-b {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+.info-pop {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: 25px;
+    background-color: crimson;
+}
+
+.info {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0;
+}
