@@ -1,14 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
-import Header from "../components/Header";
 import CrateAnimation from "../components/CrateAnimation";
 import CratePopup from "../components/CratePopup";
 import Gram from "../components/Gram";
-import type { SupaCrate, SupaReleaseGroup, SupaNote, ReleaseGroup, Artist, Label } from "../../utils/types";
+import type { SupaCrate, SupaReleaseGroup, ReleaseGroup } from "../../utils/types";
 import styles from "./Crate.module.css";
-
-import FindFontSize from "../utils/FindFontSize";
 
 export default function Crate() {
     const { key } = useParams();
@@ -86,7 +83,7 @@ export default function Crate() {
                 <Gram crate={crate} />
             </div>
             { showCrate && 
-                <CratePopup title={crate.title} releases={releases} handleClose={handleCrateClose}/>
+                <CratePopup releases={releases} handleClose={handleCrateClose}/>
             }
         </>
     );

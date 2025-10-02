@@ -4,7 +4,7 @@ import type { Artist, ReleaseGroup } from "../../utils/types.ts";
 import { Modal } from "./../utils/Modal";
 
 import ReleaseGroupResult from "./ReleaseGroupResult.tsx";
-import ArtistResult from "./ArtistResult.tsx";
+// import ArtistResult from "./ArtistResult.tsx";
 
 import styles from "./MusicBrainzSearch.module.css";
 
@@ -112,11 +112,11 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
                                     <ReleaseGroupResult data={r} mode={1} />
                                 ))
                             }
-                            {queryType === "artist" &&
+                            {/* {queryType === "artist" &&
                                 artistResults.map((a: Artist) => (
                                     <ArtistResult data={a} />
                                 ))
-                            }
+                            } */}
                         </div>
                     }
                 </div>

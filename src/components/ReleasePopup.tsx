@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useCrate } from "../contexts/CrateContext";
 import { Modal } from "../utils/Modal";
-import type { ReleasePopupProps, ReleaseGroup, Artist, Label, Track } from "../../utils/types";
+import type { ReleasePopupProps, Artist, Label, Track } from "../../utils/types";
 import QuestionMark from "/images/question-mark.png";
 import styles from "./ReleasePopup.module.css";
 
