@@ -88,5 +88,5 @@
     padding: 15px;
     padding-top: 0px;
     text-align: justify;
-    text-align-last: justify;
+    /* text-align-last: justify; */
 }
