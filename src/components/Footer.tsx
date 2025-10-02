@@ -1,14 +1,17 @@
-// TODO: add a name tag or something? 
+import { useNavigate } from "react-router-dom";
+import styles from "./Footer.module.css";
 
 export default function Footer() {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/");
+    }
+
     return (
-        <div
-            style={{
-                width: "100%",
-                height: "100px",
-                color: "black"
-            }}
-        >
+        <div className={styles["container"]} onClick={handleClick}>
+            crater
         </div>
-    )
+    );
 }
