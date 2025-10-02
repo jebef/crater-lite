@@ -18,7 +18,6 @@ export type Label = {
 
 export interface ReleasePopupProps {
     data: ReleaseGroup;
-    index: number;
     onClose: () => void;
 }
 

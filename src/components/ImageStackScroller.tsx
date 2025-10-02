@@ -165,7 +165,8 @@ export default function ImageStackScroller({ releases }: { releases: ReleaseGrou
                   height: '100%',
                   display: 'block',
                   userSelect: 'none' as const,
-                  pointerEvents: 'none' as const
+                  pointerEvents: 'none' as const,
+                  imageRendering: release.coverUrl ? undefined : "pixelated"
                 }}
                 draggable={false}
                 loading={index < 2 ? 'eager' : 'lazy'}

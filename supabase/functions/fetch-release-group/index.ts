@@ -7,6 +7,7 @@ import type { ReleaseGroup, Artist, Track, Label } from "../../../utils/types.ts
 
 type ReleaseGroupInfo = {
     coverUrl: string;
+    artists: Artist[];
     tracks: Track[];
     label: Label;
 }
@@ -41,14 +42,6 @@ Deno.serve(async (req: Request) => {
         }
 
         const firstReleaseYear = releaseGroup["first-release-date"]?.slice(0, 4);
-        const artists: Artist[] = releaseGroup["artist-credit"]?.map((credit: any) => {
-            const artist = credit.artist;
-            return {
-                mbid: artist.id,
-                name: artist.name,
-                type: artist.type
-            }
-        }) || [];
 
         const info = await fetchReleaseGroupInfo(releaseGroup.id, firstReleaseYear);
 
@@ -57,9 +50,9 @@ Deno.serve(async (req: Request) => {
             title: releaseGroup.title,
             type: releaseGroup["primary-type"],
             coverUrl: info?.coverUrl,
-            artists: artists,
+            artists: info?.artists,
             firstReleaseYear: firstReleaseYear,
-            tracks: info?.tracks, 
+            tracks: info?.tracks,
             labels: info?.labels
         }
 
@@ -100,6 +93,14 @@ async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGro
                 release["cover-art-archive"]?.front === true
             ) {
                 const coverUrl = await fetchCoverArt(release.id);
+                const artists: Artist[] = release["artist-credit"]?.map((credit: any) => {
+                    const artist = credit.artist;
+                    return {
+                        mbid: artist.id,
+                        name: artist.name,
+                        type: artist.type
+                    }
+                }) || [];
                 const tracks: Track[] = release.media?.flatMap((m: any) =>
                     m.tracks?.map((track: any) => ({
                         mbid: track.id,
@@ -117,6 +118,7 @@ async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGro
 
                 return {
                     coverUrl: coverUrl,
+                    artists: artists,
                     tracks: tracks,
                     labels: labels
                 }
@@ -124,6 +126,15 @@ async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGro
         }
 
         // if no cover art, fall back to first official release 
+        const artists: Artist[] = sorted[0]["artist-credit"]?.map((credit: any) => {
+            const artist = credit.artist;
+            return {
+                mbid: artist.id,
+                name: artist.name,
+                type: artist.type
+            }
+        }) || [];
+
         const tracks: Track[] = sorted[0].media?.flatMap((m: any) =>
             m.tracks?.map((track: any) => ({
                 mbid: track.id,
@@ -142,6 +153,7 @@ async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGro
 
         return {
             coverUrl: undefined,
+            artists: artists,
             tracks: tracks,
             labels: labels
         }

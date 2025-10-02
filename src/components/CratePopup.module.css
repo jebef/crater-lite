@@ -20,3 +20,26 @@
     height: 95%;
     overflow: hidden;
 }
+
+.cancel-button {
+    flex: 0 0 auto;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: thin solid;
+    font-size: 18px;
+    text-align: center;
+    color: whitesmoke;
+}
+.cancel-button:hover {
+    cursor: crosshair;
+}
+
+.title-card {
+    color: whitesmoke;
+    font-size: 48px;
+    line-height: 1;
+}

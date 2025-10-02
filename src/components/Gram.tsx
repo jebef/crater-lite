@@ -60,6 +60,23 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
     const tilt = Math.floor(Math.random() * (MAX_TILT - MIN_TILT + 1)) + MIN_TILT;
     const orientation = Math.round(Math.random());
 
+    const [showFront, setShowFront] = useState(true);
+    const gramRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClick = () => {
+        const gram = gramRef.current;
+
+        if (!gram) return;
+
+        gram.style.transform = "scaleX(0)";
+        gram.style.transition = "transform 0.5s ease-in-out";
+
+        setTimeout(() => {
+            gram.style.transform = "scaleX(1)";
+            setShowFront(!showFront);
+        }, 500);
+    }
+
     return (
         <>
             {toDims && nameFontSize === 0 && (
@@ -80,38 +97,60 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                     onFound={fromSizeFound}
                 />
             )}
-
-            <div className={styles["container"]}>
-                <img className={styles["border-img"]} src={Border} />
-                <div className={styles["greeting-container"]}>
-                    <div className={styles["name-block"]}>
-                        <div className={styles["to"]}>to:</div>
-                        <div
-                            className={styles["to-name"]}
-                            ref={toNameRef}
-                            style={{
-                                fontSize: nameFontSize,
-                                rotate: `${orientation === 0 ? tilt : -tilt}deg`
-                            }}
+            <div
+                className={styles["container"]}
+                ref={gramRef}
+                onClick={handleClick}
+            >
+                {showFront &&
+                    <>
+                        <img className={styles["border-img"]} src={Border} />
+                        <div className={styles["greeting-container"]}>
+                            <div className={styles["name-block"]}>
+                                <div className={styles["to"]}>to:</div>
+                                <div
+                                    className={styles["to-name"]}
+                                    ref={toNameRef}
+                                    style={{
+                                        fontSize: nameFontSize,
+                                        rotate: `${orientation === 0 ? tilt : -tilt}deg`
+                                    }}
+                                >
+                                    <span>{nameFontSize !== 0 ? crate.to_name : ""}</span>
+                                </div>
+                            </div>
+                            <div className={styles["name-block"]}>
+                                <div className={styles["from"]}>from:</div>
+                                <div
+                                    className={styles["from-name"]}
+                                    ref={fromNameRef}
+                                    style={{
+                                        fontSize: nameFontSize,
+                                        rotate: `${orientation === 1 ? tilt : -tilt}deg`
+                                    }}
+                                >
+                                    <span>{nameFontSize !== 0 ? crate.from_name : ""}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <img className={styles["border-img"]} style={{ transform: "scaleX(-1)" }} src={Border} />
+                    </>
+                }
+                {!showFront &&
+                    <div className={styles["back"]}>
+                        <div 
+                            className={styles["crate-title"]}
+                            // style={{
+                            //     fontSize: nameFontSize
+                            // }}
                         >
-                            <span>{nameFontSize !== 0 ? crate.to_name : ""}</span>
+                            {crate.title.toUpperCase()}
+                        </div>
+                        <div className={styles["crate-description"]}>
+                            {crate.description}
                         </div>
                     </div>
-                    <div className={styles["name-block"]}>
-                        <div className={styles["from"]}>from:</div>
-                        <div
-                            className={styles["from-name"]}
-                            ref={fromNameRef}
-                            style={{
-                                fontSize: nameFontSize,
-                                rotate: `${orientation === 1 ? tilt : -tilt}deg`
-                            }}
-                        >
-                            <span>{nameFontSize !== 0 ? crate.from_name : ""}</span>
-                        </div>
-                    </div>
-                </div>
-                <img className={styles["border-img"]} style={{ transform: "scaleX(-1)" }} src={Border} />
+                }
             </div>
         </>
     );

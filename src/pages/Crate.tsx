@@ -21,7 +21,12 @@ export default function Crate() {
         setShowCrate(true);
     }
 
+    const handleCrateClose = () => {
+        setShowCrate(false);
+    }
+
     useEffect(() => {
+        // TODO: move to supabase.ts 
         async function fetchCrate() {
             try {
                 const { data: crate, error: crateError } = await supabase.client
@@ -81,7 +86,7 @@ export default function Crate() {
                 <Gram crate={crate} />
             </div>
             { showCrate && 
-                <CratePopup releases={releases}/>
+                <CratePopup title={crate.title} releases={releases} handleClose={handleCrateClose}/>
             }
         </>
     );

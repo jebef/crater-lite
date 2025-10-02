@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import SearchResult from "./SearchResult";
 import type { Artist, ReleaseGroup } from "../../utils/types";
-import ReleasePopup from "./ReleasePopup";
-
-export default function ReleaseGroupResult({ data, mode }: { data: ReleaseGroup, mode: number }) {
+import CrateRelease from "./CrateRelease";
+export default function CrateReleaseCollection({ data, mode }: { data: ReleaseGroup, mode: number }) {
     const [showInfo, setShowInfo] = useState(false);
 
     useEffect(() => {
@@ -29,7 +28,7 @@ export default function ReleaseGroupResult({ data, mode }: { data: ReleaseGroup,
             />
             <div>
                 {showInfo &&
-                    <ReleasePopup data={data} onClose={handleClose} />
+                    <CrateRelease data={data} onClose={handleClose} />
                 }
             </div>
         </>
