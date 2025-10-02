@@ -52,6 +52,7 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
             } else {
                 const artists = (await supabase.searchMusicBrainzArtist(query));
                 setArtistResults(artists);
+                console.log(artistResults);
             }
         } finally {
             setLoading(false);

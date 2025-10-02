@@ -6,6 +6,7 @@ import CratePopup from "../components/CratePopup";
 import Gram from "../components/Gram";
 import type { SupaCrate, SupaReleaseGroup, ReleaseGroup } from "../../utils/types";
 import styles from "./Crate.module.css";
+import Footer from "../components/Footer";
 
 export default function Crate() {
     const { key } = useParams();
@@ -81,6 +82,8 @@ export default function Crate() {
                 </div>
                 <br></br>
                 <Gram crate={crate} />
+                <br></br>
+                <Footer/>
             </div>
             { showCrate && 
                 <CratePopup releases={releases} handleClose={handleCrateClose}/>

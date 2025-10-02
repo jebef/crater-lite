@@ -1,0 +1,10 @@
+.container {
+    width: 100%;
+    font-size: 32px;
+    color: black;
+    text-align: end;
+}
+
+.container:hover {
+    cursor: crosshair;
+}
