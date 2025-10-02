@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import Border from "/images/music-gram-border-3.png";
-import SmallBorder from "/images/small-border.png";
 import FindFontSize from "../utils/FindFontSize";
 import type { SupaCrate } from "../../utils/types";
 import styles from "./Gram.module.css";
