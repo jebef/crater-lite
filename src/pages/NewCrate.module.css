@@ -1,46 +1,7 @@
-.container {
+.main-container {
     width: 90%;
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #152B4F;
-    color: whitesmoke;
-}
-
-.add-releases {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.add-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border: thin solid;
-    font-size: 64px;
-    text-align: center;
-}
-
-.cancel-button {
-    display: flex;
-    right: 0;
-    justify-content: center;
-    align-items: center;
-    width: 60px;
-    height: 60px;
-    border: thin solid;
-    font-size: 64px;
-    text-align: center;
-}
-
-.add-text {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
 }

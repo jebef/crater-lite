@@ -1,0 +1,25 @@
+.add-release {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: thin solid;
+    font-size: 18px;
+    text-align: center;
+}
+.add-button:hover {
+    cursor: crosshair;
+}
+
+.add-text {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}

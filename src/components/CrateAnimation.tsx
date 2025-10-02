@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./CrateAnimation.module.css";
 
-export default function CrateAnimation() {
-    const navigate = useNavigate();
+export default function CrateAnimation({ handleClick }: { handleClick: () => void}) {
     const frameCount = 120; 
     const fps = 12;
     const [frame, setFrame] = useState(1);
@@ -14,10 +12,6 @@ export default function CrateAnimation() {
         }, 1000 / fps); 
         return () => clearInterval(interval);
     }, []);
-
-    const handleClick = () => {
-        return navigate("/new-crate");
-    }
 
     const frameStr = String(frame).padStart(4, "0"); 
     const src = `/animations/crate-animation/${frameStr}.png`;

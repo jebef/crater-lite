@@ -1,0 +1,68 @@
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: black;
+}
+
+.title-input,
+.to-name-input,
+.from-name-input {
+    all: unset;
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 18px;
+    border: thin solid black;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.to-name-input,
+.from-name-input {
+    width: 66%;
+}
+
+.description-input {
+    all: unset;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 4px;
+    font-size: 18px;
+    min-height: 166px;
+    border: thin solid black;
+
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.releases-container {
+    width: 100%;
+}
+
+.submit-button {
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+    border: thin solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submit-button:hover {
+    color:blueviolet;
+    border-color: blueviolet;
+}
