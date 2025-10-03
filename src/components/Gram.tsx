@@ -111,7 +111,8 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                 className={styles["container"]}
                 ref={gramRef}
                 style={{
-                    flexDirection: showFront ? "row" : "column"
+                    flexDirection: showFront ? "row" : "column",
+                    justifyContent: showFront ? "space-between" : "start"
                 }}
                 onClick={handleClick}
             >
