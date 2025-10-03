@@ -33,13 +33,36 @@
     font-size: 18px;
     text-align: center;
     color: whitesmoke;
+    transition: color 0.3s ease-in-out;
 }
-.cancel-button:hover {
+.cancel-button:active {
     cursor: crosshair;
+    color: crimson;
 }
 
 .title-card {
     color: whitesmoke;
     font-size: 48px;
     line-height: 1;
+}
+
+.releases { 
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.releases::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge, Opera */
+}
+
+@media (min-width: 786px) {
+    .container {
+        width: 50%;
+        height: 95%;
+    }
+
+    .cancel-button:hover {
+        cursor: crosshair;
+        color: crimson;
+    }
 }

@@ -20,9 +20,12 @@ export default function CratePopup({ releases, handleClose }: { releases: Releas
                     <div className={styles["cancel-button"]} onClick={handleClose}>
                         -
                     </div>
-                    { releases && releases.map((r: ReleaseGroup) => 
-                        <CrateReleaseCollection data={r} mode={1}/>
-                    )}
+                    <br></br>
+                    <div className={styles["releases"]}>
+                        {releases && releases.map((r: ReleaseGroup) =>
+                            <CrateReleaseCollection data={r} mode={1} />
+                        )}
+                    </div>
                 </div>
             </div>
         </Modal>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useCrate } from "../contexts/CrateContext";
 import AddRelease from "./AddRelease";
 import type { ReleaseGroup, Crate } from "../../utils/types";
@@ -13,8 +14,19 @@ import styles from "./CrateEditor.module.css";
 export default function CrateEditor() {
     const { state, dispatch } = useCrate();
     const navigate = useNavigate();
+    const [error, setError] = useState(false);
+    const [fadeInError, setFadeInError] = useState(false);
 
     const handleSubmit = async () => {
+        const complete = state.title.trim() !== "" && state.description.trim() !== "" &&
+            state.toName.trim() !== "" && state.fromName.trim() !== "" &&
+            state.releaseGroups.length !== 0;
+
+        if (!complete) {
+            setError(true);
+            return;
+        }
+
         const key = uuidv4();
         const crate: Crate = {
             ...state,
@@ -29,6 +41,19 @@ export default function CrateEditor() {
             console.log("Error saving crate!", err.message);
         }
     }
+
+    useEffect(() => {
+        if (error) {
+            setFadeInError(true);
+
+            setTimeout(() => {
+                setFadeInError(false);
+                setTimeout(() => {
+                    setError(false);
+                }, 600);
+            }, 3000);
+        }
+    }, [error]);
 
     return (
         <div className={styles["main-container"]}>
@@ -83,6 +108,17 @@ export default function CrateEditor() {
                 }
             </div>
             <AddRelease />
+            {error &&
+                <div
+                    className={styles["error-message"]}
+                    style={{
+                        opacity: fadeInError ? 1 : 0,
+                        transition: "opacity 0.5s ease-in-out"
+                    }}
+                >
+                    please complete all fields before submitting
+                </div>
+            }
             <div className={styles["submit-button"]} onClick={handleSubmit}>
                 fin
             </div>

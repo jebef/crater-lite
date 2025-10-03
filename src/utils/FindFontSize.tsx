@@ -11,7 +11,7 @@ interface FindFontSizeParams {
 export default function FindFontSize({ text, width, height, max, onFound }: FindFontSizeParams) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [fontSize, setFontSize] = useState(max);
-    const fontStep = 0.975;
+    const fontStep = 0.95;
 
     useEffect(() => {
         if (!containerRef.current) return;

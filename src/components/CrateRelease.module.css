@@ -35,6 +35,9 @@
     border: thin solid whitesmoke;
     color: whitesmoke;
 }
+.cover-button:hover {
+    cursor: crosshair;
+}
 
 .cover {
     width: 250px;
@@ -90,6 +93,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
+}
 
+@media (min-width: 768px) {
+    .container {
+        width: 55%;
+    }
 }
 

@@ -40,8 +40,6 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
         setSelectType(false);
     }
 
-
-
     const handleSearch = async () => {
         if (!query) return;
         setLoading(true);

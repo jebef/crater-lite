@@ -13,51 +13,62 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
 
     const [toNameFontSize, setToNameFontSize] = useState(0);
     const [fromNameFontSize, setFromNameFontSize] = useState(0);
-    const [nameFontSize, setNameFontSize] = useState(0);
+    // const [nameFontSize, setNameFontSize] = useState(0);
 
     const toSizeFound = (fontSize: number) => setToNameFontSize(fontSize);
     const fromSizeFound = (fontSize: number) => setFromNameFontSize(fontSize);
 
     useEffect(() => {
-        if (!toNameRef.current || !fromNameRef.current) return;
 
-        const toObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                const { width, height } = entry.contentRect;
-                setToDims({ width, height });
-            }
-        });
-        const fromObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                const { width, height } = entry.contentRect;
-                setFromDims({ width, height });
-            }
-        });
+        if (toNameRef.current && fromNameRef.current) {
+            const toBox = toNameRef.current.getBoundingClientRect();
+            const fromBox = fromNameRef.current.getBoundingClientRect();
 
-        toObserver.observe(toNameRef.current);
-        fromObserver.observe(fromNameRef.current);
+            setToDims({ width: toBox.width, height: toBox.height});
+            setFromDims({ width: fromBox.width, height: fromBox.height});
+        }
 
-        return () => {
-            toObserver.disconnect();
-            fromObserver.disconnect();
-        };
+        // const toObserver = new ResizeObserver(entries => {
+        //     for (const entry of entries) {
+        //         const { width, height } = entry.contentRect;
+        //         setToDims({ width, height });
+        //     }
+        // });
+        // const fromObserver = new ResizeObserver(entries => {
+        //     for (const entry of entries) {
+        //         const { width, height } = entry.contentRect;
+        //         setFromDims({ width, height });
+        //     }
+        // });
+
+        // toObserver.observe(toNameRef.current);
+        // fromObserver.observe(fromNameRef.current);
+
+        // return () => {
+        //     toObserver.disconnect();
+        //     fromObserver.disconnect();
+        // };
     }, [crate]);
 
-    useEffect(() => {
-        if (toNameFontSize === 0 || fromNameFontSize === 0) return;
-        setNameFontSize(Math.min(toNameFontSize, fromNameFontSize));
-    }, [toNameFontSize, fromNameFontSize]);
+    // useEffect(() => {
+    //     if (toNameFontSize === 0 || fromNameFontSize === 0) return;
+    //     setNameFontSize(Math.min(toNameFontSize, fromNameFontSize));
+    // }, [toNameFontSize, fromNameFontSize]);
 
-    useEffect(() => {
-        setToNameFontSize(0);
-        setFromNameFontSize(0);
-        setNameFontSize(0);
-    }, [crate]);
+    // useEffect(() => {
+    //     setToNameFontSize(0);
+    //     setFromNameFontSize(0);
+    //     setNameFontSize(0);
+    // }, [crate]);
 
     const MAX_TILT = 5;
     const MIN_TILT = 2;
-    const tilt = Math.floor(Math.random() * (MAX_TILT - MIN_TILT + 1)) + MIN_TILT;
-    const orientation = Math.round(Math.random());
+    const [tilt, setTilt] = useState(0);
+    const [orientation, setOrientation] = useState(0);
+    useEffect(() => {
+        setTilt(Math.floor(Math.random() * (MAX_TILT - MIN_TILT + 1)) + MIN_TILT);
+        setOrientation(Math.round(Math.random()));
+    },[crate]);
 
     const [showFront, setShowFront] = useState(true);
     const gramRef = useRef<HTMLDivElement | null>(null);
@@ -75,10 +86,10 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
             setShowFront(!showFront);
         }, 500);
     }
-
+    
     return (
         <>
-            {toDims && nameFontSize === 0 && (
+            {toDims && toNameFontSize === 0 && (
                 <FindFontSize
                     text={crate.to_name}
                     width={toDims.width}
@@ -87,7 +98,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                     onFound={toSizeFound}
                 />
             )}
-            {fromDims && nameFontSize === 0 && (
+            {fromDims && fromNameFontSize === 0 && (
                 <FindFontSize
                     text={crate.from_name}
                     width={fromDims.width}
@@ -99,6 +110,9 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
             <div
                 className={styles["container"]}
                 ref={gramRef}
+                style={{
+                    flexDirection: showFront ? "row" : "column"
+                }}
                 onClick={handleClick}
             >
                 {showFront &&
@@ -111,11 +125,11 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["to-name"]}
                                     ref={toNameRef}
                                     style={{
-                                        fontSize: nameFontSize,
+                                        fontSize: toNameFontSize * 0.95,
                                         rotate: `${orientation === 0 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{nameFontSize !== 0 ? crate.to_name : ""}</span>
+                                    <span>{toNameFontSize !== 0 ? crate.to_name : ""}</span>
                                 </div>
                             </div>
                             <div className={styles["name-block"]}>
@@ -124,11 +138,11 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["from-name"]}
                                     ref={fromNameRef}
                                     style={{
-                                        fontSize: nameFontSize,
+                                        fontSize: fromNameFontSize * 0.95,
                                         rotate: `${orientation === 1 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{nameFontSize !== 0 ? crate.from_name : ""}</span>
+                                    <span>{fromNameFontSize !== 0 ? crate.from_name : ""}</span>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +150,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                     </>
                 }
                 {!showFront &&
-                    <div className={styles["back"]}>
+                    <>
                         <div 
                             className={styles["crate-title"]}
                             // style={{
@@ -148,7 +162,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                         <div className={styles["crate-description"]}>
                             {crate.description}
                         </div>
-                    </div>
+                    </>
                 }
             </div>
         </>

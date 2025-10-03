@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Modal } from "../utils/Modal";
 import type { ReleasePopupProps, Artist, Label, Track } from "../../utils/types";
 import QuestionMark from "/images/question-mark.png";
-import styles from "./ReleasePopup.module.css";
+import styles from "./CrateRelease.module.css";
 
 /* 
     A simple helper for formatting track times
