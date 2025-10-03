@@ -92,7 +92,6 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                                 style={{
                                     color: addToCrate ? "green" : "whitesmoke",
                                     borderColor: addToCrate ? "green" : "whitesmoke"
-
                                 }}
                                 onClick={handleAddClick}
                             >

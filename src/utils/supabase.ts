@@ -28,7 +28,7 @@ class SupaAPI {
             throw error;
         }
 
-        console.log("Search results: ", data);
+        // console.log("Search results: ", data);
 
         return data.results;
     }
@@ -46,7 +46,7 @@ class SupaAPI {
             throw error;
         }
 
-        console.log("Search results: ", data);
+        // console.log("Search results: ", data);
 
         return data.results;
     }
