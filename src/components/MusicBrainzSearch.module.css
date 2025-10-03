@@ -32,9 +32,10 @@
     border: thin solid;
     font-size: 18px;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
 
-.cancel-button:hover {
+.cancel-button:active {
     cursor: crosshair;
     color: crimson;
     border-color: crimson;
@@ -75,6 +76,7 @@
     padding: 0px 4px;
     border: thin solid whitesmoke;
     border-left: none;
+    transition: all 0.3s ease-in-out;
 }
 
 .search-button:active {
@@ -96,6 +98,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease-in-out;
 }
 
 .search-type:hover {
@@ -122,6 +125,7 @@
 
     display: flex;
     justify-content: flex-end;
+    transition: all 0.3s ease-in-out;
 }
 
 .search-release:hover,
@@ -137,17 +141,17 @@
 
 @media (min-width: 768px) {
     .container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        font-size: 16px;
-        position: relative;
-        width: 50%;
-        height: 95%;
+        width: 75%;
     }
 
     .search-button:hover {
         cursor: crosshair;
         color: blueviolet;
     }
+
+    .cancel-button:hover {
+    cursor: crosshair;
+    color: crimson;
+    border-color: crimson;
+}
 }

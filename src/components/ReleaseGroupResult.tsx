@@ -18,12 +18,18 @@ export default function ReleaseGroupResult({ data, mode }: { data: ReleaseGroup,
         setShowInfo(false);
     }
 
+
+    let subTitle = data.artists?.length > 0 ? `${data.artists?.map((a: Artist) => a.name).join(", ")}` : "";
+    if (data.type !== "") {
+        subTitle = subTitle !== "" ? `${subTitle} | ${data.type}` : data.type;
+    }
+
     return (
         <>
             <SearchResult
                 img={data.coverUrl}
                 title={data.title}
-                subTitle={`${data.artists.map((a: Artist) => a.name).join(", ")} | ${data.type}`}
+                subTitle={subTitle}
                 onClick={handleClick}
                 mode={mode}
             />

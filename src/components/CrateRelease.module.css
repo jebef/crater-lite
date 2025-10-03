@@ -74,7 +74,6 @@
 }
 
 .text-info {
-    padding-top: 18px;
     color: whitesmoke;
     font-size: 18px;
     line-height: 1;
@@ -89,6 +88,9 @@
 }
 
 .track {
+    color: whitesmoke;
+    font-size: 18px;
+    line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
