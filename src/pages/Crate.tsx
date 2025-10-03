@@ -84,6 +84,7 @@ export default function Crate() {
                 <Gram crate={crate} />
                 <br></br>
                 <Footer/>
+                <br></br>
             </div>
             { showCrate && 
                 <CratePopup releases={releases} handleClose={handleCrateClose}/>
