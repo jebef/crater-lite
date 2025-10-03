@@ -25,7 +25,7 @@ export default function CratePopup({ releases, handleClose }: { releases: Releas
                         {releases && releases.map((r: ReleaseGroup) =>
                             <CrateReleaseCollection data={r} mode={1} />
                         )}
-                        <br></br>
+                        <div style={{ height: "120px"}}></div>
                     </div>
                 </div>
             </div>
