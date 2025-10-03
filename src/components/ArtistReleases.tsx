@@ -26,16 +26,21 @@ export default function ArtistReleases({ mbid, name, handleClose }: { mbid: stri
                         -
                     </div>
                     <br></br>
-                    { loading && 
+                    {loading &&
                         <div className={styles["loading-message"]}>
                             {`loading releases from ${name}...`}
                         </div>
                     }
                     <div className={styles["releases"]}>
-                        {releaseGroups &&
+                        {releaseGroups.length > 0 &&
                             releaseGroups.map((release: ReleaseGroup) =>
                                 <ReleaseGroupResult data={release} mode={1} />
                             )
+                        }
+                        {!loading && releaseGroups.length === 0 &&
+                            <div className={styles["loading-message"]}>
+                                {`no releases found :(`}
+                            </div>
                         }
                     </div>
                 </div>

@@ -34,6 +34,7 @@
     height: 30px;
     border: thin solid whitesmoke;
     color: whitesmoke;
+    transition: all 0.3s ease-in-out;
 }
 
 .cover {
@@ -64,6 +65,7 @@
     height: 30px;
     border: thin solid whitesmoke;
     color: whitesmoke;
+    transition: all 0.3s ease-in-out;
 }
 
 .close-button:hover {
@@ -71,7 +73,6 @@
 }
 
 .text-info {
-    /* padding-top: 18px; */
     color: whitesmoke;
     font-size: 18px;
     line-height: 1;
@@ -92,5 +93,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     display: flex;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 50%;
+    }
+    .cover-button:hover {
+        cursor: crosshair;
+        color: blueviolet;
+        border-color: blueviolet;
+    }
+    .close-button:hover {
+        cursor: crosshair;
+        color: crimson;
+        border-color: crimson;
+    }
 }
 
