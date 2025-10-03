@@ -13,13 +13,24 @@
     border: thin solid;
     font-size: 18px;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
-.add-button:hover {
+.add-button:active {
     cursor: crosshair;
+    color:blueviolet;
+    border-color: blueviolet;
 }
 
 .add-text {
     display: flex;
     align-items: center;
     font-size: 18px;
+}
+
+@media (min-width: 768px) {
+    .add-button:hover {
+        cursor: crosshair;
+        color:blueviolet;
+        border-color: blueviolet;
+    }
 }

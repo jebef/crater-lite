@@ -9,4 +9,5 @@ html, body, #root {
   /* background-color: #89AAE0; */
   /* background-color: #152B4F; */
   background-color: white;
+  overscroll-behavior: none;
 }

@@ -13,7 +13,10 @@ export default function Home() {
     return (
         <div className={styles["container"]}>
             <Header />
-            <CrateAnimation handleClick={handleCrateClick} />
+            <div className={styles["animation-container"]}>
+                <CrateAnimation handleClick={handleCrateClick} />
+            </div> 
+            
             <div className={styles["text"]} style={{ rotate: "-3deg" }}>
                 gift a digital music gram today!
             </div>

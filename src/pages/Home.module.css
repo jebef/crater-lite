@@ -7,9 +7,23 @@
 }
 
 .text {
-    color:black;
+    color: black;
     font-size: 16px;
     font-weight: 600;
     padding: 4px 8px;
     line-height: 1;
+}
+
+.animation-container {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 50%;
+    }
+
+    .animation-container {
+    width: 50%;
+}
 }

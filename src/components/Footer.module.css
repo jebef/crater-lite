@@ -7,4 +7,5 @@
 
 .container:hover {
     cursor: crosshair;
+    color: blueviolet;
 }

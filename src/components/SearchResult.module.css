@@ -7,6 +7,11 @@
     justify-content: flex-start;
     align-items: center;
     padding-top: 12px;
+    transition: all 0.3s ease-in-out;
+}
+.result-item:hover {
+    cursor: crosshair;
+    color: blueviolet;
 }
 
 .cover {
@@ -48,7 +53,6 @@
 
 .pixel-img {
     image-rendering: pixelated;
-    /* image-rendering: crisp-edges; */
 } 
     
 

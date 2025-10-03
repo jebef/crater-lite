@@ -18,7 +18,7 @@
     font-size: 16px;
     position: relative;
     width: 90%;
-    height: 95%;    
+    height: 95%;
 }
 
 .cancel-button {
@@ -32,9 +32,13 @@
     border: thin solid;
     font-size: 18px;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
-.cancel-button:hover {
+
+.cancel-button:active {
     cursor: crosshair;
+    color: crimson;
+    border-color: crimson;
 }
 
 .search {
@@ -59,9 +63,10 @@
     overflow-y: hidden;
     resize: none;
 }
+
 .search-input::placeholder {
-  color: whitesmoke;
-  opacity: 0.5; 
+    color: whitesmoke;
+    opacity: 0.5;
 }
 
 .search-button {
@@ -71,9 +76,12 @@
     padding: 0px 4px;
     border: thin solid whitesmoke;
     border-left: none;
+    transition: all 0.3s ease-in-out;
 }
-.search-button:hover {
+
+.search-button:active {
     cursor: crosshair;
+    color: blueviolet;
 }
 
 .search-type {
@@ -90,9 +98,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease-in-out;
 }
+
 .search-type:hover {
     cursor: crosshair;
+    color: blueviolet;
 }
 
 .search-type-dropdown {
@@ -114,14 +125,33 @@
 
     display: flex;
     justify-content: flex-end;
+    transition: all 0.3s ease-in-out;
 }
 
 .search-release:hover,
 .search-artist:hover {
     cursor: crosshair;
-    color:blueviolet;
+    color: blueviolet;
 }
 
 .results {
     overflow-y: scroll;
+}
+
+
+@media (min-width: 768px) {
+    .container {
+        width: 75%;
+    }
+
+    .search-button:hover {
+        cursor: crosshair;
+        color: blueviolet;
+    }
+
+    .cancel-button:hover {
+    cursor: crosshair;
+    color: crimson;
+    border-color: crimson;
+}
 }

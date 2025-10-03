@@ -40,12 +40,6 @@
     color: crimson;
 }
 
-.title-card {
-    color: whitesmoke;
-    font-size: 48px;
-    line-height: 1;
-}
-
 .releases { 
     overflow-y: scroll;
     scrollbar-width: none; /* Firefox */
@@ -53,6 +47,13 @@
 }
 .releases::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge, Opera */
+}
+
+.loading-message {
+    width: 100%;
+    text-align: center;
+    color: whitesmoke;
+    font-size: 18px;
 }
 
 @media (min-width: 786px) {

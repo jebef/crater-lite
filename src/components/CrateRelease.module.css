@@ -35,6 +35,9 @@
     border: thin solid whitesmoke;
     color: whitesmoke;
 }
+.cover-button:hover {
+    cursor: crosshair;
+}
 
 .cover {
     width: 250px;
@@ -71,7 +74,6 @@
 }
 
 .text-info {
-    padding-top: 18px;
     color: whitesmoke;
     font-size: 18px;
     line-height: 1;
@@ -86,10 +88,18 @@
 }
 
 .track {
+    color: whitesmoke;
+    font-size: 18px;
+    line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
+}
 
+@media (min-width: 768px) {
+    .container {
+        width: 55%;
+    }
 }
 

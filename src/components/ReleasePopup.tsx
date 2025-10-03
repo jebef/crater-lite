@@ -104,44 +104,63 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                             </div>
                         </div>
                     </div>
-                    <div className={styles["text-info"]}>
-                        <div>{title}</div>
-                        {artists && <div>{artists}</div>}
-                        {labels && <div>{labels}</div>}
-                        {data.type &&
-                            <div style={{ textTransform: "lowercase" }}>\{data.type}</div>
-                        }
-                        <div className={styles["track-list"]}>
-                            { data.tracks && 
-                                data.tracks.map((t: Track) => {
-                                    const duration = formatDuration(t.length);
-                                    return (
-                                        <>
-                                            <div className={styles["track"]}>
-                                                <div>
-                                                    {trackCount > 9 && !isNaN(Number(t.number)) && Number(t.number) < 10
-                                                        ? `${t.number}\u00A0`
-                                                        : t.number}
-                                                </div>
-                                                <div style={{
-                                                    whiteSpace: "nowrap",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis"
-                                                }}>
-                                                    {`\u00A0${t.title}`}
-                                                </div>
-                                                <div style={{
-                                                    marginLeft: "auto"
-                                                }}>
-                                                    {`\u00A0${duration}`}
-                                                </div>
-                                            </div>
-                                        </>
-                                    )
-                                })
-                            }
-                        </div>
+                    <div 
+                        className={styles["text-info"]}
+                        style={{
+                            paddingTop: "15px"
+                        }}
+                    >
+                        {title}
                     </div>
+                    {artists && 
+                        <div className={styles["text-info"]}>
+                            {artists}
+                        </div>
+                    }
+                    {labels && 
+                        <div className={styles["text-info"]}>
+                            {labels}
+                        </div>
+                    }
+                    {data.type &&
+                        <div 
+                            className={styles["text-info"]}
+                            style={{ textTransform: "lowercase" }}
+                        >
+                            \{data.type}
+                        </div>
+                    }
+                    <div className={styles["track-list"]}>
+                        { data.tracks && 
+                            data.tracks.map((t: Track) => {
+                                const duration = formatDuration(t.length);
+                                return (
+                                    <>
+                                        <div className={styles["track"]}>
+                                            <div>
+                                                {trackCount > 9 && !isNaN(Number(t.number)) && Number(t.number) < 10
+                                                    ? `${t.number}\u00A0`
+                                                    : t.number}
+                                            </div>
+                                            <div style={{
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis"
+                                            }}>
+                                                {`\u00A0${t.title}`}
+                                            </div>
+                                            <div style={{
+                                                marginLeft: "auto"
+                                            }}>
+                                                {`\u00A0${duration}`}
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                            })
+                        }
+                    </div>
+                  
                 </div>
             </div>
         </Modal>
