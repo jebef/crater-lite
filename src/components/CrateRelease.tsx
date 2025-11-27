@@ -65,10 +65,6 @@ export default function CrateRelease({ data, onClose }: ReleasePopupProps) {
                             >
                                 !
                             </div>
-                            <div style={{ height: "15px" }}></div>
-                            <div className={styles["cover-button"]}>
-                                n
-                            </div>
                         </div>
                     </div>
                     <div

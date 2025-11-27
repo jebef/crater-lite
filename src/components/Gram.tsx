@@ -126,7 +126,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["to-name"]}
                                     ref={toNameRef}
                                     style={{
-                                        fontSize: toNameFontSize * 0.95,
+                                        fontSize: toNameFontSize * .9,
                                         rotate: `${orientation === 0 ? tilt : -tilt}deg`
                                     }}
                                 >
@@ -139,7 +139,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["from-name"]}
                                     ref={fromNameRef}
                                     style={{
-                                        fontSize: fromNameFontSize * 0.95,
+                                        fontSize: fromNameFontSize * .9,
                                         rotate: `${orientation === 1 ? tilt : -tilt}deg`
                                     }}
                                 >
@@ -152,12 +152,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                 }
                 {!showFront &&
                     <>
-                        <div 
-                            className={styles["crate-title"]}
-                            // style={{
-                            //     fontSize: nameFontSize
-                            // }}
-                        >
+                        <div className={styles["crate-title"]}>
                             {crate.title.toUpperCase()}
                         </div>
                         <div className={styles["crate-description"]}>
