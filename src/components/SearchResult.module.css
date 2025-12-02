@@ -6,12 +6,12 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 12px;
-    transition: all 0.3s ease-in-out;
+    padding: 6px;
+    transition: all .3s ease-in-out;
 }
-.result-item:hover {
+.result-item:hover{
     cursor: crosshair;
-    color: blueviolet;
+    background-color: rgb(138, 43, 226, .5);
 }
 
 .cover {

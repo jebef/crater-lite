@@ -37,6 +37,7 @@
 }
 .cancel-button:active {
     cursor: crosshair;
+    border-color: crimson;
     color: crimson;
 }
 
@@ -48,14 +49,14 @@
 
 .releases { 
     overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 .releases::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge, Opera */
+  display: none; 
 }
 
-@media (min-width: 786px) {
+@media (min-width: 768px) {
     .container {
         width: 50%;
         height: 95%;
