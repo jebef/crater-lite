@@ -88,22 +88,14 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                         </div>
                         <div style={{ marginTop: "auto" }}>
                             <div
-                                className={styles["cover-button"]}
-                                style={{
-                                    color: addToCrate ? "green" : "whitesmoke",
-                                    borderColor: addToCrate ? "green" : "whitesmoke"
-                                }}
+                                className={`${styles["cover-button"]} ${addToCrate ? styles.active : styles.inactive}`}
                                 onClick={handleAddClick}
                             >
                                 +
                             </div>
-                            <div style={{ height: "15px" }}></div>
-                            <div className={styles["cover-button"]}>
-                                n
-                            </div>
                         </div>
                     </div>
-                    <div 
+                    <div
                         className={styles["text-info"]}
                         style={{
                             paddingTop: "15px"
@@ -111,18 +103,18 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                     >
                         {title}
                     </div>
-                    {artists && 
+                    {artists &&
                         <div className={styles["text-info"]}>
                             {artists}
                         </div>
                     }
-                    {labels && 
+                    {labels &&
                         <div className={styles["text-info"]}>
                             {labels}
                         </div>
                     }
                     {data.type &&
-                        <div 
+                        <div
                             className={styles["text-info"]}
                             style={{ textTransform: "lowercase" }}
                         >
@@ -130,7 +122,7 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                         </div>
                     }
                     <div className={styles["track-list"]}>
-                        { data.tracks && 
+                        {data.tracks &&
                             data.tracks.map((t: Track) => {
                                 const duration = formatDuration(t.length);
                                 return (
@@ -159,7 +151,7 @@ export default function ReleasePopup({ data, onClose }: ReleasePopupProps) {
                             })
                         }
                     </div>
-                  
+
                 </div>
             </div>
         </Modal>

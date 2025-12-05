@@ -88,7 +88,6 @@ export default function CrateEditor() {
                 value={state.description}
                 onChange={(e) => dispatch({ type: "SET_DESCRIPTION", payload: e.target.value })}
             />
-            <div className={styles["releases-container"]}>
                 {
                     state.releaseGroups.map((r: ReleaseGroup) => (
                         <ReleaseGroupResult
@@ -106,7 +105,6 @@ export default function CrateEditor() {
                         />
                     ))
                 }
-            </div>
             <AddRelease />
             {error &&
                 <div

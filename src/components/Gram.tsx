@@ -11,9 +11,11 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
     const [toDims, setToDims] = useState<{ width: number; height: number } | null>(null);
     const [fromDims, setFromDims] = useState<{ width: number; height: number } | null>(null);
 
+    const MAX_NAME_LEN = 10;
+    const [toName, setToName] = useState("");
+    const [fromName, setFromName] = useState("");
     const [toNameFontSize, setToNameFontSize] = useState(0);
     const [fromNameFontSize, setFromNameFontSize] = useState(0);
-    // const [nameFontSize, setNameFontSize] = useState(0);
 
     const toSizeFound = (fontSize: number) => setToNameFontSize(fontSize);
     const fromSizeFound = (fontSize: number) => setFromNameFontSize(fontSize);
@@ -28,43 +30,27 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
             setFromDims({ width: fromBox.width, height: fromBox.height});
         }
 
-        // const toObserver = new ResizeObserver(entries => {
-        //     for (const entry of entries) {
-        //         const { width, height } = entry.contentRect;
-        //         setToDims({ width, height });
-        //     }
-        // });
-        // const fromObserver = new ResizeObserver(entries => {
-        //     for (const entry of entries) {
-        //         const { width, height } = entry.contentRect;
-        //         setFromDims({ width, height });
-        //     }
-        // });
+        if (crate.to_name.length >= MAX_NAME_LEN) {
+            const cuts = crate.to_name.match(new RegExp(".{1," + MAX_NAME_LEN + "}", "g"));
+            if (cuts) setToName(cuts.join(' '));
+        } else {
+            setToName(crate.to_name);
+        }
 
-        // toObserver.observe(toNameRef.current);
-        // fromObserver.observe(fromNameRef.current);
 
-        // return () => {
-        //     toObserver.disconnect();
-        //     fromObserver.disconnect();
-        // };
+        if (crate.from_name.length >= MAX_NAME_LEN) {
+            const cuts = crate.from_name.match(new RegExp(".{1," + MAX_NAME_LEN + "}", "g"));
+            if (cuts) setFromName(cuts.join(' '));
+        } else {
+            setFromName(crate.from_name);
+        }
     }, [crate]);
-
-    // useEffect(() => {
-    //     if (toNameFontSize === 0 || fromNameFontSize === 0) return;
-    //     setNameFontSize(Math.min(toNameFontSize, fromNameFontSize));
-    // }, [toNameFontSize, fromNameFontSize]);
-
-    // useEffect(() => {
-    //     setToNameFontSize(0);
-    //     setFromNameFontSize(0);
-    //     setNameFontSize(0);
-    // }, [crate]);
 
     const MAX_TILT = 5;
     const MIN_TILT = 2;
     const [tilt, setTilt] = useState(0);
     const [orientation, setOrientation] = useState(0);
+
     useEffect(() => {
         setTilt(Math.floor(Math.random() * (MAX_TILT - MIN_TILT + 1)) + MIN_TILT);
         setOrientation(Math.round(Math.random()));
@@ -112,7 +98,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                 ref={gramRef}
                 style={{
                     flexDirection: showFront ? "row" : "column",
-                    justifyContent: showFront ? "space-between" : "start"
+                    justifyContent: showFront ? "space-between" : "flex-start"
                 }}
                 onClick={handleClick}
             >
@@ -130,7 +116,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                         rotate: `${orientation === 0 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{toNameFontSize !== 0 ? crate.to_name : ""}</span>
+                                    <span>{toNameFontSize !== 0 ? toName : ""}</span>
                                 </div>
                             </div>
                             <div className={styles["name-block"]}>
@@ -143,7 +129,7 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                         rotate: `${orientation === 1 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{fromNameFontSize !== 0 ? crate.from_name : ""}</span>
+                                    <span>{fromNameFontSize !== 0 ? fromName : ""}</span>
                                 </div>
                             </div>
                         </div>
