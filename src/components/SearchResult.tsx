@@ -14,7 +14,7 @@ export default function SearchResult({ img, title, subTitle, onClick, mode }: Se
     const imgClass = img ? "img" : "pixel-img";
 
     return (
-        <div className={styles["result-item"]} onClick={onClick}>
+        <div className={`${styles["result-item"]} ${mode === 0 ? styles["result-item--editor"] : ""}`} onClick={onClick}>
             <div className={styles["cover"]}>
                 <img className={styles[`${imgClass}`]} src={imgSrc} />
             </div>
@@ -37,6 +37,5 @@ export default function SearchResult({ img, title, subTitle, onClick, mode }: Se
                 </div>
             </div>
         </div>
-
     );
 }

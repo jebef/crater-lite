@@ -36,6 +36,27 @@
     color: whitesmoke;
     transition: all 0.3s ease-in-out;
 }
+.cover-button:hover {
+    cursor: crosshair;
+}
+
+.active {
+    color: green;
+    border-color: green;
+}
+.active:hover {
+    color: limegreen;
+    border-color: limegreen;
+}
+
+.inactive {
+    color: whitesmoke;
+    border-color: whitesmoke;
+}
+.inactive:hover {
+    color: limegreen;
+    border-color: limegreen;
+}
 
 .cover {
     width: 250px;
@@ -70,6 +91,8 @@
 
 .close-button:hover {
     cursor: crosshair;
+    color: crimson;
+    border-color: crimson;
 }
 
 .text-info {
@@ -83,7 +106,12 @@
     flex: 1 1 auto;
     min-height: 0;
     padding-top: 18px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.track-list::-webkit-scrollbar {
+    display: none;
 }
 
 .track {
@@ -98,16 +126,6 @@
 @media (min-width: 768px) {
     .container {
         width: 50%;
-    }
-    .cover-button:hover {
-        cursor: crosshair;
-        color: blueviolet;
-        border-color: blueviolet;
-    }
-    .close-button:hover {
-        cursor: crosshair;
-        color: crimson;
-        border-color: crimson;
     }
 }
 

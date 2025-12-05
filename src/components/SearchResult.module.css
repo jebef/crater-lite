@@ -1,5 +1,5 @@
 .result-item {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     overflow: hidden;
     display: flex;
@@ -9,10 +9,15 @@
     padding: 6px;
     transition: all .3s ease-in-out;
 }
-.result-item:hover{
+.result-item:hover {
     cursor: crosshair;
-    background-color: rgb(138, 43, 226, .5);
+    background-color: rgba(138, 43, 226, .5);
 }
+
+.result-item--editor {
+    padding: 0px;
+}
+
 
 .cover {
     flex: 0 0 60px;
@@ -45,7 +50,7 @@
 .sub-title {
     font-size: 16px;
     font-weight: 400;
-    color: #b3b3b3;
+    /* color: #b3b3b3; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

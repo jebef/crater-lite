@@ -33,11 +33,9 @@ export default function ReleaseGroupResult({ data, mode }: { data: ReleaseGroup,
                 onClick={handleClick}
                 mode={mode}
             />
-            <div>
-                {showInfo &&
-                    <ReleasePopup data={data} onClose={handleClose} />
-                }
-            </div>
+            {showInfo &&
+                <ReleasePopup data={data} onClose={handleClose} />
+            }
         </>
     )
 }
