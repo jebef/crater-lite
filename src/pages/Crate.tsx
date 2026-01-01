@@ -4,6 +4,7 @@ import { supabase } from "../utils/supabase";
 import CrateAnimation from "../components/CrateAnimation";
 import CratePopup from "../components/CratePopup";
 import Gram from "../components/Gram";
+import GramAutoSize from "../components/GramAutoSize";
 import type { SupaCrate, SupaReleaseGroup, ReleaseGroup } from "../../utils/types";
 import styles from "./Crate.module.css";
 import Footer from "../components/Footer";
@@ -64,7 +65,7 @@ export default function Crate() {
                 setReleases(releaseGroups);
             } catch (err) {
                 console.error("Error fetching crate data:", err);
-                setErrorMessage("An error occured, please try again");
+                setErrorMessage("An error occured, please refresh the page");
             }
         }
 
@@ -85,7 +86,8 @@ export default function Crate() {
                     <CrateAnimation handleClick={handleCrateClick} />
                 </div>
                 <br></br>
-                <Gram crate={crate} />
+                {/* <Gram crate={crate} /> */}
+                <GramAutoSize crate={crate} />
                 <br></br>
                 <Footer/>
                 <br></br>

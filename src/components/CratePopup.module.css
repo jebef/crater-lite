@@ -48,6 +48,7 @@
 }
 
 .releases { 
+    overflow-x: hidden;
     overflow-y: scroll;
     scrollbar-width: none; 
     -ms-overflow-style: none; 

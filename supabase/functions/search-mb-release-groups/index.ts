@@ -129,8 +129,7 @@ async function fetchReleaseGroupInfo(releaseGroupId: string): Promise<ReleaseGro
             if (release["cover-art-archive"]?.artwork === true &&
                 release["cover-art-archive"]?.front === true
             ) {
-                // const coverUrl = await fetchCoverArt(release.id);
-                const coverUrl = ""
+                const coverUrl = await fetchCoverArt(release.id);
                 const artists: Artist[] = release["artist-credit"]?.map((credit: any) => {
                     const artist = credit.artist;
                     return {
@@ -220,27 +219,29 @@ async function fetchCoverArt(releaseId: string): Promise<string | undefined> {
 
         const data = await res.json();
 
-        if (!data.images || !Array.isArray(data.images) || data.images.length === 0) {
-            console.log(`No images in Cover Art Archive response for release ${releaseId}`);
-            return undefined;
-        }
+        return data.images?.find((img: any) => img.front)?.image || undefined;
 
-        // Find the front cover image
-        const frontImage = data.images.find((img: any) => img.front === true);
+        // if (!data.images || !Array.isArray(data.images) || data.images.length === 0) {
+        //     console.log(`No images in Cover Art Archive response for release ${releaseId}`);
+        //     return undefined;
+        // }
 
-        if (frontImage && frontImage.image) {
-            console.log(`Successfully fetched cover art for release ${releaseId}: ${frontImage.image}`);
-            return frontImage.image;
-        }
+        // // Find the front cover image
+        // const frontImage = data.images.find((img: any) => img.front === true);
 
-        // Fallback to first image if no front image marked
-        if (data.images[0]?.image) {
-            console.log(`Using first image as fallback for release ${releaseId}: ${data.images[0].image}`);
-            return data.images[0].image;
-        }
+        // if (frontImage && frontImage.image) {
+        //     console.log(`Successfully fetched cover art for release ${releaseId}: ${frontImage.image}`);
+        //     return frontImage.image;
+        // }
 
-        console.log(`No usable cover art found for release ${releaseId}`);
-        return undefined;
+        // // Fallback to first image if no front image marked
+        // if (data.images[0]?.image) {
+        //     console.log(`Using first image as fallback for release ${releaseId}: ${data.images[0].image}`);
+        //     return data.images[0].image;
+        // }
+
+        // console.log(`No usable cover art found for release ${releaseId}`);
+        // return undefined;
 
     } catch (err) {
         console.error(`Error fetching cover art for release ${releaseId}:`, err);

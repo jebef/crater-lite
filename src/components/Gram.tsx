@@ -112,11 +112,12 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["to-name"]}
                                     ref={toNameRef}
                                     style={{
-                                        fontSize: toNameFontSize * .9,
+                                        // fontSize: toNameFontSize * .9,
                                         rotate: `${orientation === 0 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{toNameFontSize !== 0 ? toName : ""}</span>
+                                    {/* <span>{toNameFontSize !== 0 ? toName : ""}</span> */}
+                                    <span>{crate.to_name}</span>
                                 </div>
                             </div>
                             <div className={styles["name-block"]}>
@@ -125,11 +126,12 @@ export default function Gram({ crate }: { crate: SupaCrate }) {
                                     className={styles["from-name"]}
                                     ref={fromNameRef}
                                     style={{
-                                        fontSize: fromNameFontSize * .9,
+                                        // fontSize: fromNameFontSize * .9,
                                         rotate: `${orientation === 1 ? tilt : -tilt}deg`
                                     }}
                                 >
-                                    <span>{fromNameFontSize !== 0 ? fromName : ""}</span>
+                                    {/* <span>{fromNameFontSize !== 0 ? fromName : ""}</span> */}
+                                    <span>{crate.from_name}</span>
                                 </div>
                             </div>
                         </div>
