@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useCrate } from "../contexts/CrateContext";
-import AddRelease from "./AddRelease";
-import type { ReleaseGroup, Crate } from "../../utils/types";
-import ReleaseGroupResult from "./ReleaseGroupResult";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../utils/supabase";
-
 import { useNavigate } from "react-router-dom";
 
-
+import AddRelease from "./AddRelease";
+import ReleaseGroupResult from "./ReleaseGroupResult";
+import type { ReleaseGroup, Crate } from "../../utils/types";
 import styles from "./CrateEditor.module.css";
 
 export default function CrateEditor() {
