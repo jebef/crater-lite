@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
 import CrateAnimation from "../components/CrateAnimation";
 import CratePopup from "../components/CratePopup";
-import Gram from "../components/Gram";
 import GramAutoSize from "../components/GramAutoSize";
 import type { SupaCrate, SupaReleaseGroup, ReleaseGroup } from "../../utils/types";
 import styles from "./Crate.module.css";
