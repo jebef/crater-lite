@@ -15,6 +15,8 @@ export default function Crate() {
 
     const [showCrate, setShowCrate] = useState(false);
 
+    const [errorMessage, setErrorMessage] = useState("")
+
     const handleCrateClick = () => {
         setShowCrate(true);
     }
@@ -62,6 +64,7 @@ export default function Crate() {
                 setReleases(releaseGroups);
             } catch (err) {
                 console.error("Error fetching crate data:", err);
+                setErrorMessage("An error occured, please try again");
             }
         }
 
@@ -70,6 +73,7 @@ export default function Crate() {
         }
     }, [key]);
 
+    if (errorMessage) return <p>{errorMessage}</p>;
 
     if (!crate || !releases) return <p>Loading...</p>;
 
