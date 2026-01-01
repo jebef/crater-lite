@@ -40,7 +40,7 @@ export default function GramAutoSize({ crate }: { crate: SupaCrate }) {
         maxWidth: toDims.width,
         maxHeight: toDims.height,
         maxFontSize: 100,
-        minFontSize: 24
+        minFontSize: 18
     });
 
     const fromNameFont = useAutoFontSize({
@@ -48,7 +48,7 @@ export default function GramAutoSize({ crate }: { crate: SupaCrate }) {
         maxWidth: fromDims.width,
         maxHeight: fromDims.height,
         maxFontSize: 100,
-        minFontSize: 24
+        minFontSize: 18
     });
 
     const MAX_TILT = 5;

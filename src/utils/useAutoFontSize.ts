@@ -41,7 +41,7 @@ export function useAutoFontSize({
     text,
     maxWidth,
     maxHeight,
-    minFontSize = 12,
+    minFontSize = 18,
     maxFontSize = 100
 }: UseAutoFontSizeOptions) {
     const [fontSize, setFontSize] = useState<number>(maxFontSize);
