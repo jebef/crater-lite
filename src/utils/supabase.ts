@@ -51,19 +51,35 @@ class SupaAPI {
         return data.results;
     }
 
-    async fetchMusicBrainzReleaseGroup(mbid: string): Promise<ReleaseGroup> {
-        const { data, error } = await this.client.functions.invoke("fetch-release-group", {
-            body: {
-                mbid
-            }
-        });
+    async fetchMusicBrainzReleaseGroup(mbid: string, retries = 3): Promise<ReleaseGroup> {
+        let lastError;
 
-        if (error) {
-            console.error("Error fetching release group from MusicBrainz: ", error.message);
-            throw error;
+        for (let attempt = 0; attempt < retries; attempt++) {
+            try {
+                const { data, error } = await this.client.functions.invoke("fetch-release-group", {
+                    body: { mbid }
+                });
+
+                if (error) throw error;
+                return data.result;
+            } catch (error: any) {
+                lastError = error;
+
+                // Check if error is retryable
+                const isRetryable = error?.context?.body?.error?.retryable ||
+                                   error?.message?.includes("rate limit") ||
+                                   error?.message?.includes("network");
+
+                if (!isRetryable || attempt === retries - 1) break;
+
+                // Exponential backoff: 1s, 2s, 4s
+                const delay = Math.pow(2, attempt) * 1000;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
         }
 
-        return data.result;
+        console.error("Error fetching release group from MusicBrainz: ", lastError?.message);
+        throw lastError;
     }
 
     async newCrate(crate: Crate): Promise<void> {

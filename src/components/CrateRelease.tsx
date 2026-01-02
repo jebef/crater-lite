@@ -93,6 +93,7 @@ export default function CrateRelease({ data, onClose }: ReleasePopupProps) {
                             \{data.type}
                         </div>
                     }
+                    <div style={{ height: "18px", flex: "0 0 auto"}}></div>
                     <div className={styles["track-list"]}>
                         {data.tracks &&
                             data.tracks.map((t: Track) => {

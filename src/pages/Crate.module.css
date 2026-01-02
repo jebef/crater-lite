@@ -16,6 +16,13 @@
     overflow: hidden;
 }
 
+.message {
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    padding-top: 36px;
+}
+
 @media (max-width: 768px) {
     .main-container {
         width: 90%;

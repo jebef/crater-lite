@@ -71,6 +71,12 @@ export default function MusicBrainzSearch({ handleClose }: { handleClose: () => 
                                 id="search-input"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.currentTarget.blur();
+                                        handleSearch();
+                                    }
+                                }}
                                 placeholder="search releases..."
                             />
                             <div className={styles["search-type"]} onClick={handleTypeDropdownClick}>

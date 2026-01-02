@@ -4,7 +4,7 @@ import { supabase } from "../utils/supabase";
 import CrateAnimation from "../components/CrateAnimation";
 import CratePopup from "../components/CratePopup";
 import GramAutoSize from "../components/GramAutoSize";
-import type { SupaCrate, SupaReleaseGroup, ReleaseGroup } from "../../utils/types";
+import type { SupaCrate, ReleaseGroup } from "../../utils/types";
 import styles from "./Crate.module.css";
 import Footer from "../components/Footer";
 
@@ -26,7 +26,6 @@ export default function Crate() {
     }
 
     useEffect(() => {
-        // TODO: move to supabase.ts 
         async function fetchCrate() {
             try {
                 const { data: crate, error: crateError } = await supabase.client
@@ -36,35 +35,45 @@ export default function Crate() {
                     .single();
 
                 if (crateError) {
-                    console.log("An error occured: ", crateError);
+                    console.error("Database error fetching crate:", crateError);
+                    setErrorMessage("Crate not found. Please check the URL.");
                     return;
                 }
 
                 const { data: supaReleaseGroups, error: releaseGroupError } = await supabase.client
                     .from("release_groups")
                     .select("*")
-                    .eq("crate_id", crate.id);
+                    .eq("crate_id", crate.id)
+                    .order("index");
 
                 if (releaseGroupError) {
-                    console.log("An error occured: ", releaseGroupError);
+                    console.error("Database error fetching releases:", releaseGroupError);
+                    setErrorMessage("Failed to load crate releases. Please try again.");
                     return;
                 }
 
-                const releaseGroups: ReleaseGroup[] = await Promise.all(
-                    supaReleaseGroups.map(async (supaReleaseGroup: SupaReleaseGroup) => {
-                        const r = await supabase.fetchMusicBrainzReleaseGroup(supaReleaseGroup.mbid);
-                        return r;
-                    })
-                );
+                // Load releases sequentially to reduce rate limiting
+                const releaseGroups: ReleaseGroup[] = [];
+                for (const supaReleaseGroup of supaReleaseGroups) {
+                    try {
+                        const release = await supabase.fetchMusicBrainzReleaseGroup(supaReleaseGroup.mbid);
+                        releaseGroups.push(release);
+                    } catch (err: any) {
+                        console.error(`Failed to fetch release ${supaReleaseGroup.mbid}:`, err);
+                        // Continue loading other releases instead of failing completely
+                    }
+                }
 
-                // TODO: handle error throw? 
+                if (releaseGroups.length === 0 && supaReleaseGroups.length > 0) {
+                    setErrorMessage("Failed to load releases. MusicBrainz may be temporarily unavailable.");
+                    return;
+                }
 
-                // set state vars 
                 setCrate(crate);
                 setReleases(releaseGroups);
             } catch (err) {
                 console.error("Error fetching crate data:", err);
-                setErrorMessage("An error occured, please refresh the page");
+                setErrorMessage("An unexpected error occurred. Please try again.");
             }
         }
 
@@ -73,9 +82,9 @@ export default function Crate() {
         }
     }, [key]);
 
-    if (errorMessage) return <p>{errorMessage}</p>;
+    if (errorMessage) return <div className={styles["message"]}>{errorMessage}</div>;
 
-    if (!crate || !releases) return <p>Loading...</p>;
+    if (!crate || !releases) return <div className={styles["message"]}>Loading...</div>;
 
     return (
         <>
